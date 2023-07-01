@@ -1,0 +1,41 @@
+name: GH Pages Deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "*.md"
+
+jobs:
+  build-deploy:
+    name: Build and deploy app
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+
+      - name: Install dependencies 🔧 and build 🏗️
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm ci
+      - run: npm run build
+
+      - name: Init repo in build folder and commit generated files
+      run: |
+        cd build
+        git init
+        git add -A
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m 'deploy'
+
+      - name: Force push to destination branch
+      uses: ad-m/github-push-action@v0.5.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
+        force: true
+        directory: ./build
