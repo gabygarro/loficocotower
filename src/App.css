@@ -30,3 +30,13 @@ button.playButton {
     box-shadow: 20px 20px 0 #fcb045;
   }
 }
+
+@keyframes shadowAnimation {
+  50% {
+    box-shadow: 20px 20px 0px #fcb045;
+  }
+}
+
+button.shadowAnimation {
+  animation: shadowAnimation 5s infinite;
+}
