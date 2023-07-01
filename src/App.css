@@ -5,24 +5,29 @@
   display: flex;
   flex-direction: column;
 
-  .title {
-    text-transform: uppercase;
-    font-size: 10vw;
-    margin: 0;
-  }
+}
 
-  .content {
-    display: flex;
-    flex-grow: 1;
-    justify-content: center;
-    align-items: center;
+.title {
+  text-transform: uppercase;
+  font-size: 10vw;
+  margin: 0;
+}
 
-    .playButton {
-      font-size: 16vw;
-      padding: 10px;
-      border: 2px solid #000;
-      border-radius: 0;
-      color: #000;
-    }
+.content {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+button.playButton {
+  font-size: 16vw;
+  padding: 10px;
+  border: 10px solid #000;
+  border-radius: 0;
+  color: #000;
+  &:hover {
+    background-color: #000;
+    color: #fcb045;
   }
 }
