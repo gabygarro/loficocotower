@@ -21,13 +21,12 @@
 }
 
 button.playButton {
-  font-size: 16vw;
+  font-size: 10vw;
   padding: 10px;
   border: 10px solid #000;
   border-radius: 0;
   color: #000;
   &:hover {
-    background-color: #000;
-    color: #fcb045;
+    box-shadow: 20px 20px 0 #fcb045;
   }
 }

@@ -2,6 +2,8 @@
 
 Lofi beats playing on top of the SJO/MROC live atc
 
+[Live website](https://gabygarro.github.io/loficocotower/)
+
 # Scripts
 
 First install

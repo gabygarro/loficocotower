@@ -41,8 +41,8 @@ export const Player = () => {
       setPlaying(true)
       setLoading(false)
     } else if (playing) {
-      musicAudio.current.stop()
-      atcAudio.current.stop()
+      musicAudio.current.pause()
+      atcAudio.current.pause()
       setPlaying(false)
       setLoading(false)
     }
