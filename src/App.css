@@ -1,0 +1,28 @@
+.app {
+  background: rgb(177,144,200);
+  animation: gradientAnimation 10s ease infinite;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    text-transform: uppercase;
+    font-size: 10vw;
+    margin: 0;
+  }
+
+  .content {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+
+    .playButton {
+      font-size: 16vw;
+      padding: 10px;
+      border: 2px solid #000;
+      border-radius: 0;
+      color: #000;
+    }
+  }
+}
