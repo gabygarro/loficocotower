@@ -1,7 +1,7 @@
 {
   "name": "lofisjoatc",
   "version": "0.1.0",
-  "private": true,
+  "homepage": "https://gabygarro.github.io/loficocotower",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -19,7 +19,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -42,6 +44,7 @@
     "eslint-plugin-n": "^15.7.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
+    "gh-pages": "^5.0.0",
     "prettier": "2.8.8",
     "typescript": "^5.1.6"
   },
