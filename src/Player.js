@@ -1,3 +1,4 @@
+import cx from 'classnames'
 import React, { useEffect, useState, useRef } from 'react'
 import Button from '@mui/material/Button'
 
@@ -52,7 +53,7 @@ export const Player = () => {
   <h1 className="title">loficocotower</h1>
   <div className="content">
     <Button
-      className="playButton"
+      className={cx('playButton', { 'shadowAnimation': loading || playing })}
       onClick={playOnClick}
       disabled={loading}>
         {loading ? 'loading...' : (playing ? 'stop' : 'play')}
