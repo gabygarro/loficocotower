@@ -1,10 +1,9 @@
 .app {
-  background: rgb(177,144,200);
+  background: rgb(177, 144, 200);
   animation: gradientAnimation 10s ease infinite;
   height: 100vh;
   display: flex;
   flex-direction: column;
-
 }
 
 .title {
