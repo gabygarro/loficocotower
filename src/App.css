@@ -1,7 +1,6 @@
 .app {
   height: 100vh;
   display: flex;
-  flex-direction: column;
 }
 
 .day-background {
@@ -23,10 +22,18 @@
   border-color: #afafaf;
 }
 
+.title-container {
+  padding-top: 10vh;
+}
+
 .title {
   text-transform: uppercase;
-  font-size: 10vw;
+  font-size: 10vh;
   margin: 0;
+  transform: rotate(-90deg);
+  width: 10vh;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .content {

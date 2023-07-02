@@ -72,7 +72,9 @@ export const Player = () => {
         "night-background": !isDaytime,
       })}
     >
-      <h1 className="title">loficocotower</h1>
+      <div className="title-container">
+        <h1 className="title">loficocotower</h1>
+      </div>
       <div className="content">
         <div className="player" />
         <Button
