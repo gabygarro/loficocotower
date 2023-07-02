@@ -1,9 +1,26 @@
 .app {
-  background: rgb(177, 144, 200);
-  animation: gradientAnimation 10s ease infinite;
   height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.day-background {
+  background: rgb(177, 144, 200);
+  animation: gradientAnimationDay 10s ease infinite;
+}
+
+.night-background {
+  background: rgba(37, 02, 159);
+  animation: gradientAnimationNight 10s ease infinite;
+}
+
+.night-background .title {
+  color: #afafaf;
+}
+
+.night-background button.playButton {
+  color: #afafaf;
+  border-color: #afafaf;
 }
 
 .title {

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button"
 import { createAudioElement, debounce } from "./utils"
 
 const musicStreamUrl = "https://stream-160.zeno.fm/0r0xa792kwzuv"
-const sjoAtcUrl = "https://s1-fmt2.liveatc.net/mroc?nocache=2023061720454128791"
+const sjoAtcUrl = "https://s1-fmt2.liveatc.net/mroc"
 
 export const Player = () => {
   const [playing, setPlaying] = useState(false)
@@ -12,6 +12,7 @@ export const Player = () => {
   const atcAudio = useRef()
   const [musicStatus, setMusicStatus] = useState()
   const [atcStatus, setAtcStatus] = useState()
+  const [isDaytime, setIsDaytime] = useState(false)
 
   useEffect(() => {
     if (!musicAudio.current) {
@@ -47,8 +48,30 @@ export const Player = () => {
     }
   }, 250)
 
+  useEffect(() => {
+    const updateStyle = () => {
+      const currentUtcHour = new Date().getUTCHours()
+      const desiredUtcHours = [0, 12]
+      setIsDaytime(
+        !(
+          currentUtcHour >= desiredUtcHours[0] &&
+          currentUtcHour < desiredUtcHours[1]
+        )
+      )
+    }
+    const intervalId = setInterval(updateStyle, 1000)
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
   return (
-    <>
+    <div
+      className={cx("app", {
+        "day-background": isDaytime,
+        "night-background": !isDaytime,
+      })}
+    >
       <h1 className="title">loficocotower</h1>
       <div className="content">
         <div className="player" />
@@ -67,6 +90,6 @@ export const Player = () => {
             : "play"}
         </Button>
       </div>
-    </>
+    </div>
   )
 }
