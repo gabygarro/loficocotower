@@ -27,13 +27,13 @@
 }
 
 .title-container {
-  padding-top: 10vh;
+  padding-top: 5vh;
 }
 
 .title {
   text-transform: uppercase;
   font-size: 9vh;
-  margin-top: -10vw;
+  margin: 0;
   transform: rotate(-90deg);
   width: 10vh;
   display: flex;
