@@ -12,7 +12,7 @@ export const Player = () => {
   const atcAudio = useRef()
   const [musicStatus, setMusicStatus] = useState()
   const [atcStatus, setAtcStatus] = useState()
-  const [isDaytime, setIsDaytime] = useState(false)
+  const [isDaytime, setIsDaytime] = useState(null)
 
   useEffect(() => {
     if (!musicAudio.current) {
@@ -68,6 +68,7 @@ export const Player = () => {
   return (
     <div
       className={cx("app", {
+        "visibility-hidden": isDaytime === null,
         "day-background": isDaytime,
         "night-background": !isDaytime,
       })}
