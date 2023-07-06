@@ -1,6 +1,10 @@
 .app {
-  height: 100vh;
+  height: 100%;
   display: flex;
+}
+
+.visibility-hidden {
+  visibility: hidden;
 }
 
 .day-background {
