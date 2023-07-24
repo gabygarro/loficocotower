@@ -1,29 +1,32 @@
-export const debounce = (func, wait, immediate) => {
-  let timeout
-  return function () {
-    const context = this
-    const args = arguments
-    const later = function () {
-      timeout = null
-      if (!immediate) func.apply(context, args)
-    }
-    const callNow = immediate && !timeout
-    clearTimeout(timeout)
-    timeout = setTimeout(later, wait)
-    if (callNow) func.apply(context, args)
-  }
-}
+export function debounce<F extends (...args: Parameters<F>) => ReturnType<F>>(
+  func: F,
+  wait: number, 
+  immediate?: boolean,
+): (...args: Parameters<F>) => void { 
 
-const createAudioElementBase = (url, id) => {
+  let timeout: NodeJS.Timeout;
+
+  return (...args: Parameters<F>): void => {
+    if (immediate &&!timeout) {
+        func(...args);
+      }
+      clearTimeout(timeout);
+      timeout = setTimeout(() => !immediate && func(...args), wait);
+  }
+};
+  
+
+
+const createAudioElementBase = (url: string, id: string) => {
   const audioElement = new Audio(url)
   audioElement.preload = "metadata"
   audioElement.setAttribute("id", id)
   audioElement.controls = false
-  document.querySelector(".player").appendChild(audioElement)
+  document.querySelector(".player")?.appendChild(audioElement)
   return audioElement
 }
 
-const attachAudioEventHandlers = (audioElement, curStatus, setStatus) => {
+const attachAudioEventHandlers = (audioElement: HTMLAudioElement, curStatus: string, setStatus: ((s: string)=>void)) => {
   audioElement.addEventListener("play", () => {
     if (curStatus === "paused") {
       setStatus("loading")
@@ -41,6 +44,7 @@ const attachAudioEventHandlers = (audioElement, curStatus, setStatus) => {
   // eslint-disable-next-line n/handle-callback-err
   audioElement.addEventListener("error", (err) => {
     setStatus("broken")
+    console.error(err)
   })
   // error handling hook
   // kind of hacky with the interval
@@ -54,7 +58,7 @@ const attachAudioEventHandlers = (audioElement, curStatus, setStatus) => {
   }, 1000)
 }
 
-export const createAudioElement = (url, id, curStatus, setStatus) => {
+export const createAudioElement = (url: string, id: string, curStatus: string, setStatus: ((s: string)=>void)) => {
   const audioElement = createAudioElementBase(url, id)
   attachAudioEventHandlers(audioElement, curStatus, setStatus)
   return audioElement

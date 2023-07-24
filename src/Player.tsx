@@ -1,5 +1,5 @@
 import cx from "classnames"
-import React, { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 import Button from "@mui/material/Button"
 import { createAudioElement, debounce } from "./utils"
 
@@ -8,11 +8,11 @@ const sjoAtcUrl = "https://s1-fmt2.liveatc.net/mroc"
 
 export const Player = () => {
   const [playing, setPlaying] = useState(false)
-  const musicAudio = useRef()
-  const atcAudio = useRef()
-  const [musicStatus, setMusicStatus] = useState()
-  const [atcStatus, setAtcStatus] = useState()
-  const [isDaytime, setIsDaytime] = useState(null)
+  const musicAudio = useRef<HTMLAudioElement>()
+  const atcAudio = useRef<HTMLAudioElement>()
+  const [musicStatus, setMusicStatus] = useState<string>("")
+  const [atcStatus, setAtcStatus] = useState<string>("")
+  const [isDaytime, setIsDaytime] = useState<boolean|null>(null)
 
   useEffect(() => {
     if (!musicAudio.current) {
@@ -38,12 +38,12 @@ export const Player = () => {
 
   const togglePlayPause = debounce(() => {
     if (!playing) {
-      atcAudio.current.play()
-      musicAudio.current.play()
+      atcAudio.current?.play()
+      musicAudio.current?.play()
       setPlaying(true)
     } else {
-      atcAudio.current.pause()
-      musicAudio.current.pause()
+      atcAudio.current?.pause()
+      musicAudio.current?.pause()
       setPlaying(false)
     }
   }, 250)
