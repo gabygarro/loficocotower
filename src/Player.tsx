@@ -1,21 +1,22 @@
 import cx from "classnames"
 import { useEffect, useState, useRef } from "react"
 import Button from "@mui/material/Button"
-import { createAudioElement, debounce } from "./utils"
+import { type AudioElementStatus, createAudioElement, debounce } from "./utils"
 
 const musicStreamUrl = "https://stream-160.zeno.fm/0r0xa792kwzuv"
 const sjoAtcUrl = "https://s1-fmt2.liveatc.net/mroc"
 
-export const Player = () => {
+
+export const Player = () : JSX.Element => {
   const [playing, setPlaying] = useState(false)
   const musicAudio = useRef<HTMLAudioElement>()
   const atcAudio = useRef<HTMLAudioElement>()
-  const [musicStatus, setMusicStatus] = useState<string>("")
-  const [atcStatus, setAtcStatus] = useState<string>("")
+  const [musicStatus, setMusicStatus] = useState<AudioElementStatus>(null)
+  const [atcStatus, setAtcStatus] = useState<AudioElementStatus>(null)
   const [isDaytime, setIsDaytime] = useState<boolean|null>(null)
 
   useEffect(() => {
-    if (!musicAudio.current) {
+    if (musicAudio.current === undefined) {
       musicAudio.current = createAudioElement(
         musicStreamUrl,
         "music",
@@ -26,7 +27,7 @@ export const Player = () => {
   }, [musicAudio])
 
   useEffect(() => {
-    if (!atcAudio.current) {
+    if (atcAudio.current === undefined) {
       atcAudio.current = createAudioElement(
         sjoAtcUrl,
         "atc",
@@ -38,8 +39,12 @@ export const Player = () => {
 
   const togglePlayPause = debounce(() => {
     if (!playing) {
-      atcAudio.current?.play()
-      musicAudio.current?.play()
+      atcAudio.current?.play().catch((reason) => {
+        console.error(reason)
+      })
+      musicAudio.current?.play().catch((reason) => {
+        console.error(reason)
+      })
       setPlaying(true)
     } else {
       atcAudio.current?.pause()
@@ -49,7 +54,7 @@ export const Player = () => {
   }, 250)
 
   useEffect(() => {
-    const updateStyle = () => {
+    const updateStyle = (): void => {
       const currentUtcHour = new Date().getUTCHours()
       const desiredUtcHours = [0, 12]
       setIsDaytime(
@@ -70,7 +75,7 @@ export const Player = () => {
       className={cx("app", {
         "visibility-hidden": isDaytime === null,
         "day-background": isDaytime,
-        "night-background": !isDaytime,
+        "night-background": !(isDaytime ?? false),
       })}
     >
       <div className="title-container">
