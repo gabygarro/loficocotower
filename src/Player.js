@@ -1,23 +1,22 @@
 import cx from "classnames"
-import { useEffect, useState, useRef } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import Button from "@mui/material/Button"
-import { type AudioElementStatus, createAudioElement, debounce } from "./utils"
+import { createAudioElement, debounce } from "./utils"
 
 const musicStreamUrl = "https://stream-160.zeno.fm/0r0xa792kwzuv"
 
 const sjoAtcUrl = "https://s1-fmt2.liveatc.net/mroc"
 
-
-export const Player = () : JSX.Element => {
+export const Player = () => {
   const [playing, setPlaying] = useState(false)
-  const musicAudio = useRef<HTMLAudioElement>()
-  const atcAudio = useRef<HTMLAudioElement>()
-  const [musicStatus, setMusicStatus] = useState<AudioElementStatus>(null)
-  const [atcStatus, setAtcStatus] = useState<AudioElementStatus>(null)
-  const [isDaytime, setIsDaytime] = useState<boolean|null>(null)
+  const musicAudio = useRef()
+  const atcAudio = useRef()
+  const [musicStatus, setMusicStatus] = useState()
+  const [atcStatus, setAtcStatus] = useState()
+  const [isDaytime, setIsDaytime] = useState(null)
 
   useEffect(() => {
-    if (musicAudio.current === undefined) {
+    if (!musicAudio.current) {
       musicAudio.current = createAudioElement(
         musicStreamUrl,
         "music",
@@ -28,7 +27,7 @@ export const Player = () : JSX.Element => {
   }, [musicAudio])
 
   useEffect(() => {
-    if (atcAudio.current === undefined) {
+    if (!atcAudio.current) {
       atcAudio.current = createAudioElement(
         sjoAtcUrl,
         "atc",
@@ -40,22 +39,18 @@ export const Player = () : JSX.Element => {
 
   const togglePlayPause = debounce(() => {
     if (!playing) {
-      atcAudio.current?.play().catch((reason) => {
-        console.error(reason)
-      })
-      musicAudio.current?.play().catch((reason) => {
-        console.error(reason)
-      })
+      atcAudio.current.play()
+      musicAudio.current.play()
       setPlaying(true)
     } else {
-      atcAudio.current?.pause()
-      musicAudio.current?.pause()
+      atcAudio.current.pause()
+      musicAudio.current.pause()
       setPlaying(false)
     }
   }, 250)
 
   useEffect(() => {
-    const updateStyle = (): void => {
+    const updateStyle = () => {
       const currentUtcHour = new Date().getUTCHours()
       const desiredUtcHours = [0, 12]
       setIsDaytime(
@@ -76,7 +71,7 @@ export const Player = () : JSX.Element => {
       className={cx("app", {
         "visibility-hidden": isDaytime === null,
         "day-background": isDaytime,
-        "night-background": !(isDaytime ?? false),
+        "night-background": !isDaytime,
       })}
     >
       <div className="title-container">
