@@ -4,26 +4,14 @@
     "es2021": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
     "standard-with-typescript",
     "plugin:react/recommended",
     "prettier"
   ],
   "parserOptions": {
-    "project": [
-      "./tsconfig.json"
-    ]
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
-  "ignorePatterns": [
-    "dist",
-    "vite*"
-  ],
-  "rules": {
-    "react/react-in-jsx-scope": "off",
-    "react/jsx-uses-react": "off"
-  }
+  "plugins": ["react"],
+  "rules": {}
 }
