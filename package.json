@@ -2,27 +2,35 @@
   "name": "lofisjoatc",
   "version": "0.1.0",
   "homepage": "https://gabygarro.github.io/loficocotower",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "test": "echo 'not implemented'",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.3",
     "@mui/material": "^5.13.6",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
     "classnames": "^2.3.2",
+    "css-loader": "^6.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
+    "source-map-loader": "^4.0.1",
+    "ts-loader": "^9.4.4",
+    "vite": "^4.4.6",
     "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
@@ -37,8 +45,8 @@
     ]
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "eslint": "^8.43.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "eslint": "^8.45.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard-with-typescript": "^35.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -47,11 +55,6 @@
     "eslint-plugin-react": "^7.32.2",
     "gh-pages": "^5.0.0",
     "prettier": "2.8.8",
-    "typescript": "^5.1.6"
-  },
-  "overrides": {
-    "react-scripts": {
-      "typescript": "^5"
-    }
+    "typescript": "^5.1.0"
   }
 }
