@@ -45,6 +45,7 @@
   flex-grow: 1;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 button.playButton {
@@ -66,4 +67,24 @@ button.playButton {
 
 button.shadowAnimation {
   animation: shadowAnimation 5s infinite;
+}
+
+a.nowPlaying {
+  color: #000;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 3vh;
+  margin-bottom: 10vh;
+}
+
+a.nowPlaying.shadowAnimation {
+  animation: shadowAnimation 5s infinite;
+}
+
+a.nowPlaying:hover {
+  text-decoration: underline;
+}
+
+.night-background a.nowPlaying {
+  color: #fff;
 }

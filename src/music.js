@@ -28,7 +28,7 @@ export const songs = [
     youtube: "https://youtu.be/0C1NFu4NB_4?si=xPnLXfx5DaNXmUMe",
   },
   {
-    name: "Bees And Apple Trees · Heinrich Schlupf",
+    name: "Bees And Apple Trees - Heinrich Schlupf",
     youtube: "https://youtu.be/EnLWwwtO1-A?si=xcesYnrX-DK8CO_f",
   },
   {
@@ -76,7 +76,7 @@ export const songs = [
     youtube: "https://youtu.be/J1AOKFRqCjg?si=GOtkSJzRG0xHHSLH",
   },
   {
-    name: "thinking of you w/ Kyle McEvoy - mommy x Philanthrope",
+    name: "thinking of you w Kyle McEvoy - mommy x Philanthrope",
     youtube: "https://youtu.be/XNd6d6H1LBo?si=KitvYmUqDiz0AqtD",
   },
   {
@@ -128,7 +128,7 @@ export const songs = [
     youtube: "https://youtu.be/UiCRuNo4dGg?si=B0hvoJyyyAOGbxO1",
   },
   {
-    name: "Eternal Youth - RŮDE",
+    name: "Eternal Youth - RUDE",
     youtube: "https://youtu.be/3uXHaVENo6E?si=xaSKC8NMyDh8S0X5",
   },
   {

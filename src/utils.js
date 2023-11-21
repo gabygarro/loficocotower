@@ -14,7 +14,7 @@ export const debounce = (func, wait, immediate) => {
   }
 }
 
-const createAudioElementBase = (url, id) => {
+export const createAudioElementBase = (url, id) => {
   const audioElement = new Audio(url)
   audioElement.preload = "metadata"
   audioElement.setAttribute("id", id)
@@ -23,7 +23,11 @@ const createAudioElementBase = (url, id) => {
   return audioElement
 }
 
-const attachAudioEventHandlers = (audioElement, curStatus, setStatus) => {
+export const attachAudioEventHandlers = (
+  audioElement,
+  curStatus,
+  setStatus
+) => {
   audioElement.addEventListener("play", () => {
     if (curStatus === "paused") {
       setStatus("loading")
@@ -54,8 +58,23 @@ const attachAudioEventHandlers = (audioElement, curStatus, setStatus) => {
   }, 1000)
 }
 
-export const createAudioElement = (url, id, curStatus, setStatus) => {
+export const createAudioElement = (
+  url,
+  id,
+  curStatus,
+  setStatus,
+  attachAddNextMusicHandler,
+  selectedMusicIndex
+) => {
   const audioElement = createAudioElementBase(url, id)
   attachAudioEventHandlers(audioElement, curStatus, setStatus)
+  if (id === "music") {
+    attachAddNextMusicHandler(audioElement, selectedMusicIndex)
+  }
   return audioElement
 }
+
+export const getRandomIndex = (maxIndex) => Math.floor(Math.random() * maxIndex)
+
+export const getMusicFileUrl = (name) =>
+  `${process.env.PUBLIC_URL || ""}/music/${encodeURIComponent(name)}.mp3`
