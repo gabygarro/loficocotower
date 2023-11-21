@@ -1,9 +1,15 @@
 import cx from "classnames"
 import React, { useEffect, useState, useRef } from "react"
 import Button from "@mui/material/Button"
-import { createAudioElement, debounce } from "./utils"
-
-const musicStreamUrl = "https://stream-160.zeno.fm/0r0xa792kwzuv"
+import {
+  createAudioElement,
+  debounce,
+  getRandomIndex,
+  getMusicFileUrl,
+  createAudioElementBase,
+  attachAudioEventHandlers,
+} from "./utils"
+import { songs } from "./music"
 
 const sjoAtcUrl = "https://s1-fmt2.liveatc.net/mroc"
 
@@ -11,20 +17,57 @@ export const Player = () => {
   const [playing, setPlaying] = useState(false)
   const musicAudio = useRef()
   const atcAudio = useRef()
-  const [musicStatus, setMusicStatus] = useState()
-  const [atcStatus, setAtcStatus] = useState()
+  const [musicStatus, setMusicStatus] = useState(null)
+  const [atcStatus, setAtcStatus] = useState(null)
   const [isDaytime, setIsDaytime] = useState(null)
+  const [selectedMusicIndex, setSelectedMusicIndex] = useState(null)
+  const selectedSong = selectedMusicIndex ? songs[selectedMusicIndex] : null
+  const musicAudioLoading = useRef()
+
+  const attachAddNextMusicHandler = (audioElement, curMusicIndex) => {
+    const PRE_LOAD_SECONDS = 10
+    const nextMusicIndex = (curMusicIndex + 1) % songs.length
+    const nextMusic = songs[nextMusicIndex]
+    const preloadInterval = setInterval(() => {
+      const curTime = audioElement.currentTime
+      const duration = audioElement.duration
+      if (curTime + PRE_LOAD_SECONDS >= duration) {
+        const nextUrl = getMusicFileUrl(nextMusic.name)
+        musicAudioLoading.current = createAudioElementBase(
+          nextUrl,
+          "music_loading"
+        )
+        clearInterval(preloadInterval)
+      }
+    }, 1000)
+    audioElement.addEventListener("ended", () => {
+      setMusicStatus("changing_source")
+      musicAudio.current.remove()
+      musicAudio.current = musicAudioLoading.current
+      musicAudio.current.id = "music"
+      // musicAudio.current.volume = musicVolumeRef.current
+      musicAudio.current.play()
+      setSelectedMusicIndex(nextMusicIndex)
+      musicAudioLoading.current = null
+      attachAudioEventHandlers(musicAudio.current, musicStatus, setMusicStatus)
+      attachAddNextMusicHandler(musicAudio.current, nextMusicIndex)
+      setMusicStatus("playing")
+    })
+  }
 
   useEffect(() => {
-    if (!musicAudio.current) {
+    if (selectedSong && !musicAudio.current) {
+      const url = getMusicFileUrl(selectedSong.name)
       musicAudio.current = createAudioElement(
-        musicStreamUrl,
+        url,
         "music",
         musicStatus,
-        setMusicStatus
+        setMusicStatus,
+        attachAddNextMusicHandler,
+        selectedMusicIndex
       )
     }
-  }, [musicAudio])
+  }, [musicAudio, selectedSong])
 
   useEffect(() => {
     if (!atcAudio.current) {
@@ -50,6 +93,7 @@ export const Player = () => {
   }, 250)
 
   useEffect(() => {
+    // Background style checker
     const updateStyle = () => {
       const currentUtcHour = new Date().getUTCHours()
       const desiredUtcHours = [0, 12]
@@ -61,6 +105,8 @@ export const Player = () => {
       )
     }
     const intervalId = setInterval(updateStyle, 1000)
+    // Select music at random
+    setSelectedMusicIndex(getRandomIndex(songs.length))
     return () => {
       clearInterval(intervalId)
     }
@@ -79,6 +125,19 @@ export const Player = () => {
       </div>
       <div className="content">
         <div className="player" />
+        {selectedSong && (
+          <a
+            className={cx("nowPlaying", {
+              shadowAnimation:
+                musicStatus === "loading" || atcStatus === "loading" || playing,
+            })}
+            href={selectedSong.youtube}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {selectedSong.name}
+          </a>
+        )}
         <Button
           className={cx("playButton", {
             shadowAnimation:
