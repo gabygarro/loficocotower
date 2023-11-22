@@ -15,6 +15,11 @@
 .night-background {
   background: rgba(37, 02, 159);
   animation: gradientAnimationNight 10s ease infinite;
+  color: #fff;
+}
+
+.night-background a.nowPlaying {
+  color: #fff;
 }
 
 .night-background .title {
@@ -40,12 +45,35 @@
   justify-content: flex-end;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .content {
   display: flex;
   flex-grow: 1;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  padding: 24px;
+}
+
+.bottomContent .volume {
+  display: flex;
+  padding: 12px 0;
+}
+
+.bottomContent .volume input {
+  margin-left: 12px;
+  width: 50vw;
 }
 
 button.playButton {
@@ -83,8 +111,4 @@ a.nowPlaying.shadowAnimation {
 
 a.nowPlaying:hover {
   text-decoration: underline;
-}
-
-.night-background a.nowPlaying {
-  color: #fff;
 }

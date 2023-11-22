@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import cx from "classnames"
 import React, { useEffect, useState, useRef } from "react"
 import Button from "@mui/material/Button"
@@ -23,6 +24,8 @@ export const Player = () => {
   const [selectedMusicIndex, setSelectedMusicIndex] = useState(null)
   const selectedSong = selectedMusicIndex ? songs[selectedMusicIndex] : null
   const musicAudioLoading = useRef()
+  const [musicVolume, setMusicVolume] = useState(1)
+  const [atcVolume, setAtcVolume] = useState(1)
 
   const attachAddNextMusicHandler = (audioElement, curMusicIndex) => {
     const PRE_LOAD_SECONDS = 10
@@ -123,35 +126,71 @@ export const Player = () => {
       <div className="title-container">
         <h1 className="title">loficocotower</h1>
       </div>
-      <div className="content">
-        <div className="player" />
-        {selectedSong && (
-          <a
-            className={cx("nowPlaying", {
+      <div className="container">
+        <div className="content">
+          <div className="player" />
+          {selectedSong && (
+            <a
+              className={cx("nowPlaying", {
+                shadowAnimation:
+                  musicStatus === "loading" ||
+                  atcStatus === "loading" ||
+                  playing,
+              })}
+              href={selectedSong.youtube}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {selectedSong.name}
+            </a>
+          )}
+          <Button
+            className={cx("playButton", {
               shadowAnimation:
                 musicStatus === "loading" || atcStatus === "loading" || playing,
             })}
-            href={selectedSong.youtube}
-            target="_blank"
-            rel="noreferrer"
+            onClick={togglePlayPause}
+            disabled={musicStatus === "loading" || atcStatus === "loading"}
           >
-            {selectedSong.name}
-          </a>
-        )}
-        <Button
-          className={cx("playButton", {
-            shadowAnimation:
-              musicStatus === "loading" || atcStatus === "loading" || playing,
-          })}
-          onClick={togglePlayPause}
-          disabled={musicStatus === "loading" || atcStatus === "loading"}
-        >
-          {musicStatus === "loading" || atcStatus === "loading"
-            ? "loading..."
-            : playing
-            ? "stop"
-            : "play"}
-        </Button>
+            {musicStatus === "loading" || atcStatus === "loading"
+              ? "loading..."
+              : playing
+              ? "stop"
+              : "play"}
+          </Button>
+        </div>
+        <div className="bottomContent">
+          <div className="volume">
+            <label htmlFor="musicVolume">🎹</label>
+            <input
+              type="range"
+              id="musicVolume"
+              min="0"
+              max="1"
+              step="0.1"
+              value={musicVolume}
+              onChange={(e) => {
+                setMusicVolume(e.target.value)
+                musicAudio.current.volume = e.target.value
+              }}
+            />
+          </div>
+          <div className="volume">
+            <label htmlFor="atcVolume">✈️</label>
+            <input
+              type="range"
+              id="atcVolume"
+              min="0"
+              max="1"
+              step="0.1"
+              value={atcVolume}
+              onChange={(e) => {
+                setAtcVolume(e.target.value)
+                atcAudio.current.volume = e.target.value
+              }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )
