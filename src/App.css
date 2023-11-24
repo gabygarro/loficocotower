@@ -112,3 +112,25 @@ a.nowPlaying.shadowAnimation {
 a.nowPlaying:hover {
   text-decoration: underline;
 }
+
+input[type="range"] {
+  appearance: none;
+  background-color: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  position: relative;
+  height: 8px;
+  background-color: #afafaf;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  box-sizing: border-box;
+  appearance: none;
+  position: relative;
+  background-color: #fcb045;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  translate: 0 -50%;
+}

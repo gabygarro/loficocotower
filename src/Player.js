@@ -45,10 +45,11 @@ export const Player = () => {
     }, 1000)
     audioElement.addEventListener("ended", () => {
       setMusicStatus("changing_source")
+      const volume = musicAudio.current.volume
       musicAudio.current.remove()
       musicAudio.current = musicAudioLoading.current
       musicAudio.current.id = "music"
-      // musicAudio.current.volume = musicVolumeRef.current
+      musicAudio.current.volume = volume
       musicAudio.current.play()
       setSelectedMusicIndex(nextMusicIndex)
       musicAudioLoading.current = null
@@ -167,7 +168,7 @@ export const Player = () => {
               id="musicVolume"
               min="0"
               max="1"
-              step="0.1"
+              step="0.01"
               value={musicVolume}
               onChange={(e) => {
                 setMusicVolume(e.target.value)
@@ -182,7 +183,7 @@ export const Player = () => {
               id="atcVolume"
               min="0"
               max="1"
-              step="0.1"
+              step="0.01"
               value={atcVolume}
               onChange={(e) => {
                 setAtcVolume(e.target.value)
