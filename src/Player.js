@@ -12,7 +12,7 @@ import {
 } from "./utils"
 import { songs } from "./music"
 
-const sjoAtcUrl = "https://s1-fmt2.liveatc.net/mroc"
+const sjoAtcUrl = "https://s1-bos.liveatc.net/mroc"
 
 export const Player = () => {
   const [playing, setPlaying] = useState(false)
