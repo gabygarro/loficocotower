@@ -77,4 +77,4 @@ export const createAudioElement = (
 export const getRandomIndex = (maxIndex) => Math.floor(Math.random() * maxIndex)
 
 export const getMusicFileUrl = (name) =>
-  `${process.env.PUBLIC_URL || ""}/music/${encodeURIComponent(name)}.mp3`
+  `/music/${encodeURIComponent(name)}.mp3`

@@ -12,7 +12,7 @@ import {
 } from "./utils"
 import { songs } from "./music"
 
-const sjoAtcUrl = "https://s1-bos.liveatc.net/mroc"
+const sjoAtcUrl = ["https://s1-bos.liveatc.net/mroc", "https://s1-fmt2.liveatc.net/mroc5"]
 
 export const Player = () => {
   const [playing, setPlaying] = useState(false)
@@ -76,13 +76,25 @@ export const Player = () => {
   useEffect(() => {
     if (!atcAudio.current) {
       atcAudio.current = createAudioElement(
-        sjoAtcUrl,
+        sjoAtcUrl[0],
         "atc",
         atcStatus,
         setAtcStatus
       )
     }
   }, [atcAudio])
+
+  // Use fallback atc
+  useEffect(() => {
+    if (atcStatus === 'broken') {
+      atcAudio.current = createAudioElement(
+        sjoAtcUrl[1],
+        "atc",
+        atcStatus,
+        setAtcStatus
+      )
+    }
+  }, [atcStatus])
 
   const togglePlayPause = debounce(() => {
     if (!playing) {
