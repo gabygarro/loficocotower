@@ -15,7 +15,7 @@ npm i
 Local development
 
 ```
-npm start
+npm run dev
 ```
 
 ## Building the App
@@ -26,6 +26,6 @@ By default, the build output will be placed at dist. You may deploy this dist fo
 
 ## Testing the App Locally
 
-Once you've built the app, you may test it locally by running `npm run serve` command.
+Once you've built the app, you may test it locally by running `npm run preview` command.
 
-The vite preview command will boot up a local static web server that serves the files from dist at http://localhost:4173. It's an easy way to check if the production build looks OK in your local environment.
+The vite preview command will boot up a local static web server that serves the files from dist at http://localhost:3000. It's an easy way to check if the production build looks OK in your local environment.
