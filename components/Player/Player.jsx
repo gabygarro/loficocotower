@@ -2,6 +2,7 @@
 import cx from "classnames"
 import React, { useEffect, useState, useRef } from "react"
 import Button from "@mui/material/Button"
+import axios from "axios"
 import {
   createAudioElement,
   debounce,
@@ -26,6 +27,8 @@ export default function Player () {
   const musicAudioLoading = useRef()
   const [musicVolume, setMusicVolume] = useState(1)
   const [atcVolume, setAtcVolume] = useState(1)
+  const [currentWeather, setCurrentWeather] = useState({ temp: ' ', wind: ' ', windDir: ' ', time: ' ' })
+  const firstLoad = useRef(false)
 
   const attachAddNextMusicHandler = (audioElement, curMusicIndex) => {
     const PRE_LOAD_SECONDS = 10
@@ -108,23 +111,53 @@ export default function Player () {
     }
   }, 250)
 
-  useEffect(() => {
-    // Background style checker
-    const updateStyle = () => {
-      const currentUtcHour = new Date().getUTCHours()
-      const desiredUtcHours = [0, 12]
-      setIsDaytime(
-        !(
-          currentUtcHour >= desiredUtcHours[0] &&
-          currentUtcHour < desiredUtcHours[1]
-        )
+  // Background style checker
+  const updateStyle = () => {
+    const currentUtcHour = new Date().getUTCHours()
+    const desiredUtcHours = [0, 12]
+    setIsDaytime(
+      !(
+        currentUtcHour >= desiredUtcHours[0] &&
+        currentUtcHour < desiredUtcHours[1]
       )
-    }
+    )
+  }
+
+  useEffect(() => {
     const intervalId = setInterval(updateStyle, 1000)
-    // Select music at random
     setSelectedMusicIndex(getRandomIndex(songs.length))
     return () => {
       clearInterval(intervalId)
+    }
+  }, [])
+
+  const fetchWeatherData = async () => {
+    try {
+      const todaysDate = new Date().toISOString().split("T")[0]
+      const tomorrowsDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split("T")[0]
+      const { data: { hourly: { temperature_2m, wind_direction_10m, wind_speed_10m, time } }} = await axios.get(
+        `https://api.open-meteo.com/v1/forecast?latitude=9.999010&longitude=-84.194169&hourly=temperature_2m,wind_speed_10m,wind_direction_10m&timezone=America%2FChicago&start_date=${
+          todaysDate
+        }&end_date=${tomorrowsDate}`
+      );
+      let nextHour = new Date().getHours() + 1
+      setCurrentWeather({
+        temp: temperature_2m[nextHour],
+        wind: wind_speed_10m[nextHour],
+        windDir: wind_direction_10m[nextHour],
+        time: time[nextHour]
+      })
+      // Update weather data in 30 mins
+      setInterval(fetchWeatherData, 1000 * 60 * 30)
+    } catch (error) {
+      //
+    }
+  }
+
+  useEffect(() => {
+    if (!firstLoad.current) {
+      fetchWeatherData()
+      firstLoad.current = true
     }
   }, [])
 
@@ -140,6 +173,10 @@ export default function Player () {
         <h1 className="title">loficocotower</h1>
       </div>
       <div className="container">
+        <div className="background-container"></div>
+        <div className="airport-stats" title={`Pronóstico para ${currentWeather.time}`}>
+          temperatura: <label>{currentWeather.temp}°C</label> viento: <label>{currentWeather.wind}km/h {currentWeather.windDir}°</label>
+        </div>
         <div className="content">
           <div className="player" />
           {selectedSong && (
