@@ -14,7 +14,7 @@ import { songs } from "./music"
 
 const sjoAtcUrl = ["https://s1-bos.liveatc.net/mroc", "https://s1-fmt2.liveatc.net/mroc5"]
 
-export const Player = () => {
+export default function Player () {
   const [playing, setPlaying] = useState(false)
   const musicAudio = useRef()
   const atcAudio = useRef()
