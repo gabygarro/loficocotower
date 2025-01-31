@@ -1,5 +1,5 @@
 import React from 'react';
-import favicon from './assets/favicon.ico'
+import favicon from '../assets/favicon.ico';
  
 export function Head() {
   return <>
