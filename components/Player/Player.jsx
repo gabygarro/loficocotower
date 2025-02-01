@@ -175,29 +175,6 @@ export default function Player () {
     }
   }, [])
 
-  const fetchWeatherData = async () => {
-    try {
-      const todaysDate = new Date().toISOString().split("T")[0]
-      const tomorrowsDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split("T")[0]
-      const { data: { hourly: { temperature_2m, wind_direction_10m, wind_speed_10m, time } }} = await axios.get(
-        `https://api.open-meteo.com/v1/forecast?latitude=9.999010&longitude=-84.194169&hourly=temperature_2m,wind_speed_10m,wind_direction_10m&timezone=America%2FChicago&start_date=${
-          todaysDate
-        }&end_date=${tomorrowsDate}`
-      );
-      let nextHour = new Date().getHours() + 1
-      setCurrentWeather({
-        temp: temperature_2m[nextHour],
-        wind: wind_speed_10m[nextHour],
-        windDir: wind_direction_10m[nextHour],
-        time: time[nextHour]
-      })
-      // Update weather data in 30 mins
-      setInterval(fetchWeatherData, 1000 * 60 * 30)
-    } catch (error) {
-      //
-    }
-  }
-
   useEffect(() => {
     if (!firstLoad.current) {
       fetchWeatherData()
