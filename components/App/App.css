@@ -33,6 +33,7 @@
 
 .title-container {
   padding-top: 5vh;
+  z-index: 1;
 }
 
 .title {
@@ -66,6 +67,7 @@
   @media (max-width: 768px) {
     background-position-x: calc(100% + 20vw);
     opacity: 0.4;
+    background-size: 50vh;
   }
 }
 
@@ -100,7 +102,10 @@
   bottom: 0;
   opacity: 0.6;
   background-repeat: no-repeat;
-  background-size: 10vw
+  background-size: 10vw;
+  @media (max-width: 768px) {
+    background-size: 20%;
+  }
 }
 
 .background-plane.landing {
@@ -119,10 +124,13 @@
   display: flex;
   justify-content: flex-end;
   padding: 12px 12px 0 0;
+  z-index: 1;
+}
+.airport-stats span {
+  font-weight: bold;
 }
 .airport-stats label {
-  font-weight: bold;
-  padding: 0 12px;
+  margin-right: 12px;
 }
 
 .content {

@@ -198,7 +198,8 @@ export default function Player () {
         <div className="background-plane landing"></div>
         <div className="background-plane takingoff"></div>
         <div className="airport-stats" title={`Pronóstico para ${currentWeather.time}`}>
-          temperatura: <label>{currentWeather.temp}°C</label> viento: <label>{currentWeather.wind}km/h {currentWeather.windDir}°</label>
+          <label>temp: <span>{currentWeather.temp}°C</span></label>
+          <label>wind: <span>{currentWeather.wind}km/h {currentWeather.windDir}°</span></label>
         </div>
         <div className="content">
           <div className="player" />
