@@ -13,7 +13,7 @@ export function Head() {
     />
     <link rel="apple-touch-icon" href={favicon} />
     <meta property="og:image" content={favicon} />
-    <link rel="manifest" href="/assets/manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
     <title>lofi coco tower</title>
   </>
 }
