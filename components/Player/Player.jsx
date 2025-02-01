@@ -119,7 +119,7 @@ export default function Player () {
       currentHour >= daytime[0] &&
       currentHour < daytime[1]
     )
-    return setInterval(updateStyle, 60000)
+    return setTimeout(updateStyle, 60000)
   }, [currentWeather])
 
   useEffect(() => {
@@ -158,7 +158,7 @@ export default function Player () {
         sunset: Date.parse(sunset)
       })
       // Update weather data in 30 mins
-      return setInterval(fetchWeatherData, 1000 * 60 * 30)
+      return setTimeout(fetchWeatherData, 1000 * 60 * 30)
     } catch (error) {
       setIsDaytime(true)
     }
