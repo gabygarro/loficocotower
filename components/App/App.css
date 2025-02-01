@@ -58,16 +58,61 @@
   right: 0;
   bottom: 0;
   background-image: url("../../assets/palmtree.png");
-  background-size: 50vw;
+  background-size: 75vh;
   background-position-x: right;
   background-position-y: bottom;
   background-repeat: no-repeat;
-  opacity: 0.8;
+  opacity: 0.6;
   @media (max-width: 768px) {
-    background-size: 50vh;
     background-position-x: calc(100% + 20vw);
-    opacity: 0.5;
+    opacity: 0.4;
   }
+}
+
+@keyframes planelanding
+{
+  from {
+    background-position-x: 150%;
+    background-position-y: -50%;
+  }
+  to {
+    background-position-x: -100%;
+    background-position-y: 150%;
+  }
+}
+
+@keyframes planetakingoff
+{
+  from {
+    background-position-x: -100%;
+    background-position-y: 150%;
+  }
+  to {
+    background-position-x: 150%;
+    background-position-y: -50%;
+  }
+}
+.background-plane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0.6;
+  background-repeat: no-repeat;
+  background-size: 10vw
+}
+
+.background-plane.landing {
+  animation: planelanding 60s ease infinite;
+  background-image: url("../../assets/planelanding.png");
+}
+
+.background-plane.takingoff {
+  background-position-x: -100%;
+  animation: planetakingoff 60s ease infinite;
+  animation-delay: 17s;
+  background-image: url("../../assets/planetakingoff.png");
 }
 
 .airport-stats {
@@ -89,6 +134,7 @@
   @media (min-width: 768px) {
     padding-right: 40%;
   }
+  z-index: 1;
 }
 
 .bottomContent {

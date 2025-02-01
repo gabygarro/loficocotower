@@ -1,6 +1,6 @@
 /* eslint-disable no-debugger */
 import cx from "classnames"
-import React, { useEffect, useState, useRef } from "react"
+import React, { useCallback, useEffect, useState, useRef } from "react"
 import Button from "@mui/material/Button"
 import axios from "axios"
 import {
@@ -27,7 +27,7 @@ export default function Player () {
   const musicAudioLoading = useRef()
   const [musicVolume, setMusicVolume] = useState(1)
   const [atcVolume, setAtcVolume] = useState(1)
-  const [currentWeather, setCurrentWeather] = useState({ temp: ' ', wind: ' ', windDir: ' ', time: ' ' })
+  const [currentWeather, setCurrentWeather] = useState({ temp: ' ', wind: ' ', windDir: ' ', time: ' ', sunrise: 0, sunset: 0 })
   const firstLoad = useRef(false)
 
   const attachAddNextMusicHandler = (audioElement, curMusicIndex) => {
@@ -112,20 +112,64 @@ export default function Player () {
   }, 250)
 
   // Background style checker
-  const updateStyle = () => {
-    const currentUtcHour = new Date().getUTCHours()
-    const desiredUtcHours = [0, 12]
+  const updateStyle = useCallback(() => {
+    const currentHour = Date.now()
+    const daytime = [currentWeather.sunrise, currentWeather.sunset]
     setIsDaytime(
-      !(
-        currentUtcHour >= desiredUtcHours[0] &&
-        currentUtcHour < desiredUtcHours[1]
-      )
+      currentHour >= daytime[0] &&
+      currentHour < daytime[1]
     )
+    return setInterval(updateStyle, 60000)
+  }, [currentWeather])
+
+  useEffect(() => {
+    let intervalId
+    if (currentWeather.sunrise !== 0 && currentWeather.sunset !== 0) {
+      intervalId = updateStyle()
+    }
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [currentWeather])
+
+  useEffect(() => {
+    setSelectedMusicIndex(getRandomIndex(songs.length))
+  }, [])
+
+  const fetchWeatherData = async () => {
+    try {
+      const todaysDate = new Date().toISOString().split("T")[0]
+      const tomorrowsDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000).toISOString().split("T")[0]
+      const { data: {
+        hourly: { temperature_2m, wind_direction_10m, wind_speed_10m, time },
+        daily: { sunrise: [sunrise], sunset: [sunset] }
+      }} = await axios.get(
+        `https://api.open-meteo.com/v1/forecast?latitude=9.999010&longitude=-84.194169&hourly=temperature_2m,wind_speed_10m,wind_direction_10m&daily=sunrise,sunset&timezone=America%2FChicago&start_date=${
+          todaysDate
+        }&end_date=${tomorrowsDate}`
+      );
+      let nextHour = new Date().getHours() + 1
+      setCurrentWeather({
+        temp: temperature_2m[nextHour],
+        wind: wind_speed_10m[nextHour],
+        windDir: wind_direction_10m[nextHour],
+        time: time[nextHour],
+        sunrise: Date.parse(sunrise),
+        sunset: Date.parse(sunset)
+      })
+      // Update weather data in 30 mins
+      return setInterval(fetchWeatherData, 1000 * 60 * 30)
+    } catch (error) {
+      setIsDaytime(true)
+    }
   }
 
   useEffect(() => {
-    const intervalId = setInterval(updateStyle, 1000)
-    setSelectedMusicIndex(getRandomIndex(songs.length))
+    let intervalId
+    if (!firstLoad.current) {
+      intervalId = fetchWeatherData()
+      firstLoad.current = true
+    }
     return () => {
       clearInterval(intervalId)
     }
@@ -174,6 +218,8 @@ export default function Player () {
       </div>
       <div className="container">
         <div className="background-container"></div>
+        <div className="background-plane landing"></div>
+        <div className="background-plane takingoff"></div>
         <div className="airport-stats" title={`Pronóstico para ${currentWeather.time}`}>
           temperatura: <label>{currentWeather.temp}°C</label> viento: <label>{currentWeather.wind}km/h {currentWeather.windDir}°</label>
         </div>
