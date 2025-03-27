@@ -1,8 +1,8 @@
 import type { PageContext } from "vike/types";
 
 export default (pageContext: PageContext) => {
-  const hostname = pageContext.urlParsed?.hostname;
-  if (hostname === 'loficocotower.online') {
+  const isProduction = import.meta.env.PROD;
+  if (isProduction) {
     return `
       <!-- Statcounter code -->
       <script type="text/javascript">
