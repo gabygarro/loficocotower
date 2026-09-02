@@ -4,21 +4,12 @@ export default (pageContext: PageContext) => {
   const isProduction = import.meta.env.PROD;
   if (isProduction) {
     return `
-      <!-- Statcounter code -->
-      <script type="text/javascript">
-        var sc_project=13072813;
-        var sc_invisible=1;
-        var sc_security="51cdf448";
+      <!-- Privacy-friendly analytics by Plausible -->
+      <script async src="https://plausible.io/js/pa-njte1QHn-wQqETGbA9IaL.js"></script>
+      <script>
+        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        plausible.init()
       </script>
-      <script type="text/javascript"
-        src="https://www.statcounter.com/counter/counter.js"
-        async></script>
-      <noscript><div class="statcounter"><a title="Web Analytics"
-        href="https://statcounter.com/" target="_blank"><img
-        class="statcounter"
-        src="https://c.statcounter.com/13072813/0/51cdf448/1/"
-        alt="Web Analytics"
-        referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
     `;
   }
   return '';
