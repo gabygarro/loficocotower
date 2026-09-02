@@ -32,6 +32,7 @@
     "classnames": "^2.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "vike": "^0.4.220",
     "vike-react": "^0.5.12"
   },
   "devDependencies": {
@@ -46,7 +47,6 @@
     "eslint-plugin-promise": "^6.6.0",
     "prettier": "^3.4.2",
     "typescript": "^5.7.3",
-    "vike": "^0.4.220",
     "vite": "^6.0.11",
     "vitest": "^3.0.4"
   },
